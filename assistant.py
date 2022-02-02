@@ -6,7 +6,9 @@ import speech_recognition as sr
 from gtts import gTTS
 import wolframalpha
 import pyaudio
-import playsound
+from pydub import AudioSegment
+from pydub.playback import play
+
 
 file_num = 1
 
@@ -21,8 +23,9 @@ def assistant_talks(output):
     file = str(file_num) + '.mp3'
 
     textToSpeak.save(file)
-
-    playsound.playsound(file, True)
+    sound = AudioSegment.from_mp3(file)
+    play(sound)
+    
     os.remove(file)
 
 def get_audio():
@@ -83,3 +86,10 @@ def search_web(input):
             driver.get("https://www.google.com/search?q =" + '+'.join(input.split()))
   
         return
+
+
+if __name__ == "__main__":
+    assistant_talks("What's your name?")
+    name ='Human'
+   # name = get_audio()
+    #assistant_talks("Hello, " + name + '.')
