@@ -1,4 +1,5 @@
 
+from re import search
 from selenium import webdriver
 import os
 import speech_recognition as sr
@@ -44,3 +45,41 @@ def get_audio():
         assistant_talks("Could not understand your audio. Try again")
         return 0
 
+def search_web(input):
+
+    driver = webdriver.Firefox()
+    driver.implicitly_wait(1)
+    driver.maximize_window()
+
+    if 'youtube' in input.lower():
+        assistant_talks('Opening in youtube')
+        indx = input.lower().split().index('youtube')
+        query = input.split()[indx + 1:]
+        driver.get("http://www.youtube.com/results?search_query =" + '+'.join(query))
+        return
+
+    elif 'wikipedia' in input.lower():
+        assistant_talks('Opening Wikipedia')
+        indx = input.lower().split().index('wikipedia')
+        query = input.split()[indx + 1:]
+        driver.get("https://en.wikipedia.org/wiki/" + '_'.join(query))
+        return
+
+    else:
+        if 'google' in input:
+  
+            indx = input.lower().split().index('google')
+            query = input.split()[indx + 1:]
+            driver.get("https://www.google.com/search?q =" + '+'.join(query))
+  
+        elif 'search' in input:
+  
+            indx = input.lower().split().index('google')
+            query = input.split()[indx + 1:]
+            driver.get("https://www.google.com/search?q =" + '+'.join(query))
+  
+        else:
+  
+            driver.get("https://www.google.com/search?q =" + '+'.join(input.split()))
+  
+        return
