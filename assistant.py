@@ -8,6 +8,7 @@ import wolframalpha
 import pyaudio
 from pydub import AudioSegment
 from pydub.playback import play
+from windows_tools.installed_software import get_installed_software
 
 
 file_num = 1
@@ -16,7 +17,7 @@ def assistant_talks(output):
     global file_num
 
     file_num += 1
-    print('Person : ', output)
+    print('Assist: ', output)
 
     textToSpeak = gTTS(text=output, lang='en', slow=False)
 
@@ -87,9 +88,30 @@ def search_web(input):
   
         return
 
+def open_app(input):
+  
+    elif "firefox" in input or "mozilla" in input:
+        assistant_talks("Opening Mozilla Firefox")
+        os.startfile('C:\Program Files\Mozilla Firefox\\firefox.exe')
+        return
+  
+    elif "word" in input:
+        assistant_talks("Opening Microsoft Word")
+        os.startfile('C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Office 2013\\Word 2013.lnk')
+        return
+  
+    elif "excel" in input:
+        assistant_talks("Opening Microsoft Excel")
+        os.startfile('C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Office 2013\\Excel 2013.lnk')
+        return
+  
+    else:
+  
+        assistant_talks("Application not available")
+        return
 
 if __name__ == "__main__":
-    assistant_talks("What's your name?")
-    name ='Human'
-   # name = get_audio()
-    #assistant_talks("Hello, " + name + '.')
+    assistant_speaks("What's your name?")
+    name ='Ausbel'
+    name = get_audio()
+    assistant_speaks("Hello, " + name + '.')
