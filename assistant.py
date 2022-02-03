@@ -32,20 +32,23 @@ def assistant_talks(output):
 def get_audio():
 
     recorder = sr.Recognizer()
+    recorder.energy_threshold = 50
     audio = ""
 
-    with sr.Microphone() as source:
+    with sr.Microphone( device_index=3 ) as source:
+        
         print("Speak")
 
         audio = recorder.listen(source, phrase_time_limit=5)
 
     print("Stop")
+    print(audio)
 
     try:
         text = recorder.recognize_google(audio, language='en-US')
         print("You : ", text)
         return text
-    except:
+    except sr.UnknownValueError:
         assistant_talks("Could not understand your audio. Try again")
         return 0
 
@@ -90,7 +93,7 @@ def search_web(input):
 
 def open_app(input):
   
-    elif "firefox" in input or "mozilla" in input:
+    if "firefox" in input or "mozilla" in input:
         assistant_talks("Opening Mozilla Firefox")
         os.startfile('C:\Program Files\Mozilla Firefox\\firefox.exe')
         return
@@ -111,7 +114,7 @@ def open_app(input):
         return
 
 if __name__ == "__main__":
-    assistant_speaks("What's your name?")
+    assistant_talks("What's your name?")
     name ='Ausbel'
     name = get_audio()
-    assistant_speaks("Hello, " + name + '.')
+    assistant_talks("Hello, " + name + '.')
